@@ -1,10 +1,10 @@
 import { Router } from "express";
-import note_route from "./note_route";
+import noteRoutes from "./noteRoutes";
 
 const router = Router();
 
 export default (): Router => {
-    note_route(router);
+    noteRoutes(router);
     return router;
 };
 
