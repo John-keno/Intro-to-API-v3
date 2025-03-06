@@ -89,4 +89,4 @@ mongoose.connection.on("error", (err) => {
 	console.error("Error connecting to MongoDB", err);
 });
 
-mongoose.disconnect();
+// mongoose.disconnect();
