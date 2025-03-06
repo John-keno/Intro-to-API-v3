@@ -10,7 +10,8 @@ export const getNotes = async (
 	try {
 		const notes = await ModelNote.find();
 		res.json(notes).status(200);
+		console.log(`${res.statusCode} ${req.method} ${req.path}`);
 	} catch (error) {
-		return next(new HttpError(500, "Unable to fetch notes"));
+		next(new HttpError(500, "Internal Server Error"));
 	}
 };
