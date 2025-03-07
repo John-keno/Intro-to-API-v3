@@ -4,7 +4,7 @@ import {
 	getNotesById,
 	createNote,
 	deleteNote,
-} from "../controllers/note";
+} from "../controllers/note.controller";
 
 export default function (router: Router) {
 	router.get("/api/notes", getNotes);

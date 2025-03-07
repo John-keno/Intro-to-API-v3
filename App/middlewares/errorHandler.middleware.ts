@@ -1,4 +1,4 @@
-import { HttpError } from "../utils/HttpError";
+import { HttpError } from "../utils/httpError";
 import { Request, Response, NextFunction } from "express";
 
 // Error handling for routes that are not found

@@ -1,6 +1,6 @@
-import { ModelNote } from "../models/ModelNote";
+import { ModelNote } from "../models/note.model";
 import { Request, Response, NextFunction } from "express";
-import { HttpError } from "../utils/HttpError";
+import { HttpError } from "../utils/httpError";
 import mongoose from "mongoose";
 
 // Get all notes

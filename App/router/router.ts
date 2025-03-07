@@ -1,5 +1,5 @@
 import { Router } from "express";
-import noteRoutes from "./noteRoutes";
+import noteRoutes from "./note.routes";
 
 const router = Router();
 

@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
-import router from "./router";
+import router from "./router/router";
 import { notFound, clientError } from "./middlewares/errorHandler.middleware";
 import { reqLogger } from "./middlewares/logger.middleware";
-import connectToDatabase from "./config/database";
+import connectToDatabase from "./config/dbMongo.config";
 
 const app = express();
 
