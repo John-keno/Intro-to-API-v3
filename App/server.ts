@@ -7,7 +7,7 @@ import connectToDatabase from "./config/dbMongo.config";
 
 const app = express();
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
 /* Middleware Registration*/
 
@@ -33,8 +33,24 @@ app.use(notFound);
 app.use(clientError);
 
 // Connect to the database and start the server
+
+function startServer(port: number): void {
+	const server = app.listen(port, () => {
+		console.log(`Server is running on http://localhost:${port}`);
+	});
+
+	server.on("error", (err: any) => {
+		if (err.code === "EADDRINUSE") {
+			let newPort = port + 1;
+			console.error(`Port ${port} is already in use.`);
+			console.log(`Trying to start server on Port ${newPort}`);
+			startServer(newPort);
+		} else {
+			console.error("An error occurred: ", err);
+			process.exit(1);
+		}
+	});
+}
 connectToDatabase().then(() => {
-		app.listen(port, () => {
-			console.log(`Server is running on http://localhost:${port}`);
-		});
-	})
+	startServer(port);
+});
