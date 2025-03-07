@@ -1,10 +1,12 @@
 {
   "name": "intro-to-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": " A demo Application to understand the basics of API",
+  "main": "./App/server.ts",
   "scripts": {
-    "start": "nodemon",
+    "start": "ts-node ./App/server.ts",
+    "dev": "nodemon",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

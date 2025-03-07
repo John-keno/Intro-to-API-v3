@@ -1,6 +1,7 @@
 import { ModelNote } from "../models/ModelNote";
 import { Request, Response, NextFunction } from "express";
-import { HttpError } from "../errors/HttpError";
+import { HttpError } from "../utils/HttpError";
+import mongoose from "mongoose";
 
 // Get all notes
 export const getNotes = async (
@@ -9,8 +10,8 @@ export const getNotes = async (
 	next: NextFunction
 ) => {
 	try {
-		const notes = await ModelNote.find();
-		res.json(notes).status(200);
+		const data = await ModelNote.find();
+		res.json(data).status(200);
 		console.log(`${res.statusCode} ${req.method} ${req.path}`);
 	} catch (error) {
 		next(new HttpError(500, "Internal Server Error"));
@@ -23,25 +24,22 @@ export const getNotesById = async (
 	res: Response,
 	next: NextFunction
 ) => {
+	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+		next(new HttpError(400, "Invalid ID. Please provide a valid one"));
+		return;
+	}
 	try {
-		const note = await ModelNote.findById(req.params.id);
-		if (note) {
-			const resNote = {
-				id: note._id,
-				title: note.title,
-				content: note.content,
-				createdAt: note.createdAt,
-				updatedAt: note.updatedAt,
-			}
-			res.json(resNote).status(200);
+		const data = await ModelNote.findById(req.params.id);
+		if (data) {
+			res.json(data).status(200);
 			console.log(`${res.statusCode} ${req.method} ${req.path}`);
 		} else {
 			next(new HttpError(404, "Note not found"));
 		}
 	} catch (error) {
-		next(new HttpError(500, "Internal Server Error"));
+		return next(new HttpError(500, "Internal Server Error"));
 	}
-}
+};
 
 // Create a new note
 export const createNote = async (
@@ -49,14 +47,20 @@ export const createNote = async (
 	res: Response,
 	next: NextFunction
 ) => {
+	if (!req.body.title || !req.body.content) {
+		return next(new HttpError(400, "Title and content are required"));
+	}
+
 	try {
-		const note = await ModelNote.create(req.body);
-		res.json(note).status(201);
+		const data = await ModelNote.create(req.body);
+		res
+			.status(201)
+			.send({ message: "Note created successfully", success: true, data });
 		console.log(`${res.statusCode} ${req.method} ${req.path}`);
 	} catch (error) {
-		next(new HttpError(500, "Internal Server Error"));
+		return next(new HttpError(500, "Internal Server Error"));
 	}
-}
+};
 
 // Delete a note
 export const deleteNote = async (
@@ -64,15 +68,21 @@ export const deleteNote = async (
 	res: Response,
 	next: NextFunction
 ) => {
+	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+		next(new HttpError(400, "Invalid ID. Please provide a valid one"));
+		return;
+	}
 	try {
-		const note = await ModelNote.findByIdAndDelete(req.params.id);
-		if (note) {
-			res.json(note).status(200);
+		const data = await ModelNote.findByIdAndDelete(req.params.id);
+		if (data) {
+			res
+				.status(200)
+				.send({ message: "Note deleted successfully", success: true, data });
 			console.log(`${res.statusCode} ${req.method} ${req.path}`);
 		} else {
-			next(new HttpError(404, "Note not found"));
+			return next(new HttpError(404, "Note not found"));
 		}
 	} catch (error) {
-		next(new HttpError(500, "Internal Server Error"));
+		return next(new HttpError(500, "Internal Server Error"));
 	}
-}
+};

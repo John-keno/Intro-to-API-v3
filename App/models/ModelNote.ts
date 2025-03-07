@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { Note, NoteDocument } from "utils/note";
+import { Note } from "utils/data";
 
 const NoteSchema: Schema = new Schema(
 	{
@@ -8,7 +8,18 @@ const NoteSchema: Schema = new Schema(
 	},
 	{
 		timestamps: true,
+		toJSON: {
+			transform: (doc, res) => {
+				return{
+					id: res._id,
+					title: res.title,
+					content: res.content,
+					createdAt: res.createdAt,
+					updatedAt: res.updatedAt,
+				};
+			},
+		},
 	}
 );
 
-export const ModelNote = model<NoteDocument>("Note", NoteSchema);
+export const ModelNote = model<Note>("Note", NoteSchema);
