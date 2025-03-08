@@ -2,19 +2,11 @@
   "name": "intro-to-api",
   "version": "1.0.1",
   "description": " A demo Application to understand the basics of API",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "start": "node ./dist/server.js",
-    "ts.check": "tsc --project tsconfig.json",
-    "add-build": "git add ./dist",
-    "build": "rimraf ./dist && tsc ",
+    "start": "node api/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "pre-commit": [
-    "ts.check",
-    "build",
-    "add-build"
-  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
