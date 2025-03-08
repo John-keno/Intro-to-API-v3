@@ -4,7 +4,7 @@
   "description": " A demo Application to understand the basics of API",
   "main": "server.ts",
   "scripts": {
-    "start": "node api/server.ts",
+    "start": "node ./api/server.ts",
     "dev": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
