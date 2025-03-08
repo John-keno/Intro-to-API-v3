@@ -47,4 +47,5 @@ function startServer(port) {
 (0, dbMongo_config_1.default)().then(() => {
     startServer(port);
 });
-//# sourceMappingURL=server.js.map
+exports.default = app;
+//# sourceMappingURL=index.js.map

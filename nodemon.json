@@ -1,5 +1,5 @@
 {
-    "watch": ["App"],
+    "watch": ["api"],
     "ext": ".ts, .js",
-    "exec": "ts-node ./App/server.ts"
+    "exec": "ts-node ./api/server.ts"
 }

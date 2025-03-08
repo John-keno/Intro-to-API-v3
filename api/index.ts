@@ -53,3 +53,5 @@ function startServer(port: number): void {
 connectToDatabase().then(() => {
 	startServer(port);
 });
+
+export default app;
