@@ -33,7 +33,6 @@ app.use(notFound);
 app.use(clientError);
 
 // Connect to the database and start the server
-
 function startServer(port: number): void {
 	const server = app.listen(port, () => {
 		console.log(`Server is running on http://localhost:${port}`);
