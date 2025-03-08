@@ -1,14 +1,20 @@
 {
   "name": "intro-to-api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": " A demo Application to understand the basics of API",
-  "main": "./App/server.ts",
+  "main": "index.js",
   "scripts": {
-    "start": "ts-node ./App/server.ts",
-    "dev": "nodemon",
-    "vercel-build": "echo \"vercel build\"",
+    "start": "nodemon ./App/server.ts",
+    "ts.check": "tsc --project tsconfig.json",
+    "add-build": "git add ./dist",
+    "build": "rimraf ./dist && tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "pre-commit": [
+    "ts.check",
+    "build",
+    "add-build"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -19,6 +25,8 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "nodemon": "^3.1.9",
+    "pre-commit": "^1.2.2",
+    "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   },
