@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ts-node ./App/server.ts",
     "dev": "nodemon",
-    "build": "tsc",
+    "vercel-build": "echo \"vercel build\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
