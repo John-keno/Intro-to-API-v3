@@ -86,3 +86,10 @@ export const deleteNote = async (
 		return next(new HttpError(500, "Internal Server Error"));
 	}
 };
+
+export const welcomeMessage = (req: Request, res: Response) => {
+	res
+		.status(200)
+		.send("Welcome to the Joekode Notes API. This is a simple API to manage notes");
+	console.log(`${res.statusCode} ${req.method} ${req.path}`);
+};
