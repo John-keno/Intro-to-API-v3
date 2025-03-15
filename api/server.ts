@@ -17,11 +17,12 @@ app.use(
 		credentials: true,
 	})
 );
-// For logging requests
-app.use(reqLogger);
 
 // For parsing JSON data
 app.use(express.json());
+
+// For logging requests
+app.use(reqLogger);
 
 // Routes
 app.use("/", router());
