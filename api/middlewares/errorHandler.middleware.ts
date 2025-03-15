@@ -5,10 +5,7 @@ import { ZodTypeAny, ZodError, z, ZodType } from "zod";
 
 // Error handling for routes that are not found
 export const notFound = (req: Request, res: Response, next: NextFunction) => {
-	res.status(404).json({ success: false, message: "Not found" });
-    res.on("finish", () => {
-        console.error(`[${new Date().toUTCString()}] [${res.statusCode}] ${req.path} Not Found`);
-    }) 
+	res.status(404).json({ success: false, message: "Not found" }); 
 	next();
 };
 
@@ -21,9 +18,7 @@ export const clientError = (
 ) => {
     
 	if (err instanceof HttpError) {
-		res.status(err.status).json({ success: false, message: err.message });
-		console.error(`[${new Date().toUTCString()}] [${res.statusCode}] ${req.path}`);
-        
+		res.status(err.status).json({ success: false, message: err.message });        
 	}
-	next(`[${new Date().toUTCString()}] [${res.statusCode}] ${req.path} ${err.message}`);
+	next();
 }

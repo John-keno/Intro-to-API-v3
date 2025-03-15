@@ -2,8 +2,6 @@ import NoteService from "../services/note.service";
 import { Request, Response, NextFunction } from "express";
 import { HttpError } from "../utils/httpError";
 import mongoose from "mongoose";
-import z from "zod";
-import NoteSchema from "validation/note.schema";
 
 const {
 	getAllNotes,
@@ -15,15 +13,12 @@ const {
 	getNotesByCategory,
 } = new NoteService();
 
-type Note = z.infer<typeof NoteSchema>
-
 export default class NoteController {
 	// Get all notes
 	async getNotes(req: Request, res: Response, next: NextFunction) {
 		try {
 			const data = await getAllNotes();
-			res.json(data).status(200);
-			console.log(`${res.statusCode} ${req.method} ${req.path}`);
+			res.status(200).send(data);
 		} catch (error) {
 			next(new HttpError(500, "Internal Server Error"));
 		}
@@ -38,8 +33,7 @@ export default class NoteController {
 		try {
 			const data = await getNotesById(req.params.id);
 			if (data) {
-				res.json(data).status(200);
-				console.log(`${res.statusCode} ${req.method} ${req.path}`);
+				res.status(200).send(data);
 			} else {
 				next(new HttpError(404, "Note not found"));
 			}
@@ -62,9 +56,8 @@ export default class NoteController {
 			res
 				.status(201)
 				.send({ message: "Note created successfully", success: true, data });
-			console.log(`${res.statusCode} ${req.method} ${req.path}`);
 		} catch (error) {
-			return next(new HttpError(500, `${error}` ));
+			return next(new HttpError(500, "Internal Server Error"));
 		}
 	}
 
@@ -80,7 +73,6 @@ export default class NoteController {
 				res
 					.status(200)
 					.send({ message: "Note deleted successfully", success: true, data });
-				console.log(`${res.statusCode} ${req.method} ${req.path}`);
 			} else {
 				return next(new HttpError(404, "Note not found"));
 			}
@@ -109,13 +101,12 @@ export default class NoteController {
 			if (data) {
 				res
 					.status(200)
-					.send({ message: "Note updated successfully", success: true, data });
-				console.log(`${res.statusCode} ${req.method} ${req.path}`);
+					.send({ success: true, message: "Note updated successfully", data });
 			} else {
 				return next(new HttpError(404, "Note not found"));
 			}
 		} catch (error) {
-			return next(new HttpError(500, "Internal Server Error " + error));
+			return next(new HttpError(500, "Internal Server Error "));
 		}
 	}
 
@@ -124,12 +115,13 @@ export default class NoteController {
 		try {
 			const data = await getNotesByCategory(req.params.categoryId);
 			if (data) {
-				res.json(data).status(200);
-				console.log(`${res.statusCode} ${req.method} ${req.path}`);
+				res.status(200).send(data);
 			} else {
 				next(new HttpError(404, "No Note in this category found"));
 			}
-		} catch (error) {}
+		} catch (error) {
+			return next(new HttpError(500, "Internal Server Error"));
+		}
 	}
 
 	// Welcome message
@@ -139,6 +131,5 @@ export default class NoteController {
 			.send(
 				"Welcome to the Joekode Notes API. This is a simple API to manage notes"
 			);
-		console.log(`${res.statusCode} ${req.method} ${req.path}`);
 	}
 }

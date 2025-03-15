@@ -17,4 +17,7 @@ export default async function connectToDatabase() {
     mongoose.connection.on("error", (err) => {
         console.error("Error connecting to MongoDB ", err);
     });
+
+    /* Uncomment the line below to disconnect from database and simulate server error*/
+    // mongoose.disconnect();
 }

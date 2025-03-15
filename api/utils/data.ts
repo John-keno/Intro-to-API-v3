@@ -1,4 +1,20 @@
 import { Document } from "mongoose";
+
+/**
+ * Interface representing a Note document in the database.
+ * @extends Document from mongoose
+ */
+
+/**
+ * Interface representing a Category.
+ * @interface Category
+ */
+
+/**
+ * Interface representing a Category document in the database.
+ * @extends Document from mongoose
+ */
+
 export interface Note extends Document {
 	id: string;
 	title: string;
