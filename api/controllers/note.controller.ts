@@ -17,8 +17,13 @@ export default class NoteController {
 	// Get all notes
 	async getNotes(req: Request, res: Response, next: NextFunction) {
 		try {
-			const data = await getAllNotes();
-			res.status(200).send(data);
+			const { limit, page } = req.query;
+			const data = await getAllNotes(
+				parseInt(page as string) || 1,
+				parseInt(limit as string) || 10
+			);
+
+			res.status(200).send({ success: true, ...data });
 		} catch (error) {
 			next(new HttpError(500, "Internal Server Error"));
 		}
@@ -113,9 +118,14 @@ export default class NoteController {
 	// get Notes by categories
 	async getAllNotesByCategory(req: Request, res: Response, next: NextFunction) {
 		try {
-			const data = await getNotesByCategory(req.params.categoryId);
+			const { page, limit } = req.query;
+			const data = await getNotesByCategory(
+				req.params.categoryId,
+				parseInt(page as string) || 1,
+				parseInt(limit as string) || 10
+			);
 			if (data) {
-				res.status(200).send(data);
+				res.status(200).send({ success: true, ...data });
 			} else {
 				next(new HttpError(404, "No Note in this category found"));
 			}

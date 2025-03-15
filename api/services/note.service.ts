@@ -1,10 +1,10 @@
 import { Category, Note } from "utils/data";
 import { ModelCategory, ModelNote } from "../models/note.model";
-import { generateId } from "../utils/helpers";
+import { generateId, paginate } from "../utils/helpers";
 
 export default class NoteService {
-	async getAllNotes() {
-		return await ModelNote.find();
+	async getAllNotes(pageNumber: number, limitNumber: number) {
+		return await paginate(ModelNote, pageNumber, limitNumber);
 	}
 
 	async getNotesById(id: string) {
@@ -26,8 +26,14 @@ export default class NoteService {
 		});
 	}
 
-	async getNotesByCategory(categoryId: string) {
-		return await ModelNote.find({ "category.id": categoryId });
+	async getNotesByCategory(
+		categoryId: string,
+		pageNumber: number,
+		limitNumber: number
+	) {
+		return await paginate(ModelNote, pageNumber, limitNumber, {
+			"category.id": categoryId,
+		});
 	}
 
 	async getCategoryByName(categoryName: string) {
