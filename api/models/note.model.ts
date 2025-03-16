@@ -1,4 +1,3 @@
-import { Path } from "./../../node_modules/path-scurry/dist/esm/index.d";
 import { Schema, model } from "mongoose";
 import { Category, Note } from "utils/data";
 

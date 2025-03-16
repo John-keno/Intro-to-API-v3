@@ -1,7 +1,7 @@
 {
   "name": "intro-to-api",
-  "version": "1.0.2",
-  "description": " A demo Application to understand the basics of API",
+  "version": "1.0.3",
+  "description": " A demo Application to understand the basics of API CRUD operations",
   "main": "server.ts",
   "scripts": {
     "start": "node ./api/server.ts",
@@ -12,23 +12,15 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/body-parser": "^1.19.5",
-    "@types/compression": "^1.7.5",
-    "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "nodemon": "^3.1.9",
-    "pre-commit": "^1.2.2",
-    "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   },
   "dependencies": {
     "@paralleldrive/cuid2": "^2.2.2",
     "@types/mongoose": "^5.11.97",
-    "body-parser": "^1.20.3",
-    "compression": "^1.8.0",
-    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
