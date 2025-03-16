@@ -1,7 +1,6 @@
-import NoteSchema from "../validation/note.schema";
 import { HttpError } from "../utils/httpError";
 import { Request, Response, NextFunction, RequestHandler } from "express";
-import { ZodTypeAny, ZodError, z, ZodType } from "zod";
+
 
 // Error handling for routes that are not found
 export const notFound = (req: Request, res: Response, next: NextFunction) => {

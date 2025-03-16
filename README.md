@@ -39,4 +39,4 @@ Example: `GET http://localhost:3000/v2/api/notes?page=1&limit=5`
 - mongoose
 - Zod
 - MongoDB
-- Vercel (Deployment)
+- Reander(deployemt)
