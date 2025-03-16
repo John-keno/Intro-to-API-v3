@@ -55,4 +55,4 @@ connectToDatabase().then(() => {
 	startServer(port);
 });
 
-export default app;
+// export default app;
