@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { Category, Note } from "utils/data";
+import { Category, Note } from "../utils/data";
 
 const NoteSchema: Schema = new Schema(
 	{

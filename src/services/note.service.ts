@@ -1,4 +1,4 @@
-import { Category, Note } from "utils/data";
+import { Category, Note } from "../utils/data";
 import { ModelCategory, ModelNote } from "../models/note.model";
 import { generateId, paginate } from "../utils/helpers";
 
