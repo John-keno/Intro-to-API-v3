@@ -22,6 +22,8 @@ The following query parameters can be used to control pagination:
 - `page`: Page number (default: 1)
 - `limit`: Number of items per page (default: 10)
 
+    *NOTE:* All parameters must be positve numbers
+
 Example: `GET http://localhost:3000/v2/api/notes?page=1&limit=5`
 
 ## Installation for Development
