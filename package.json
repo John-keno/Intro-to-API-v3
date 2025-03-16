@@ -2,10 +2,10 @@
   "name": "intro-to-api",
   "version": "1.0.3",
   "description": " A demo Application to understand the basics of API CRUD operations",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "build": "rimraf dist && tsc",
-    "start": "node dist/server.js",
+    "start": "node dist/index.js",
     "dev": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
