@@ -23,6 +23,7 @@
     "@paralleldrive/cuid2": "^2.2.2",
     "@types/mongoose": "^5.11.97",
     "@types/node": "^22.13.10",
+    "common": "^0.2.5",
     "cors": "^2.8.5",
     "debug": "^4.4.0",
     "dotenv": "^16.4.7",
