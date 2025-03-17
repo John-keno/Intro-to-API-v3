@@ -47,4 +47,4 @@ function startServer(port) {
 (0, dbMongo_config_1.default)().then(() => {
     startServer(port);
 });
-// export default app;
+exports.default = app;
