@@ -40,3 +40,4 @@ Example: `GET http://localhost:3000/v2/api/notes?page=1&limit=5`
 - Zod
 - MongoDB
 - Render(deployemt)
+  - Check deployment via this link https://intro-to-api-v2.onrender.com/
