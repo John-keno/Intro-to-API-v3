@@ -2,6 +2,7 @@ import NoteService from "../services/note.service";
 import { Request, Response, NextFunction } from "express";
 import { HttpError } from "../utils/httpError";
 import mongoose from "mongoose";
+import { AuthRequest } from "../utils/data";
 
 const {
 	getAllNotes,
@@ -15,12 +16,14 @@ const {
 
 export default class NoteController {
 	// Get all notes
-	async getNotes(req: Request, res: Response, next: NextFunction) {
+	async getNotes(req: AuthRequest, res: Response, next: NextFunction) {
 		try {
 			const { limit, page } = req.query;
+			const id = req.user?.userId || '';
 			const data = await getAllNotes(
 				parseInt(page as string) || 1,
-				parseInt(limit as string) || 10
+				parseInt(limit as string) || 10,
+				id
 			);
 
 			res.status(200).send({ success: true, ...data });

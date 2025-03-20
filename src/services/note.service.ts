@@ -3,8 +3,8 @@ import { ModelCategory, ModelNote } from "../models/note.model";
 import { generateId, paginate } from "../utils/helpers";
 
 export default class NoteService {
-	async getAllNotes(pageNumber: number, limitNumber: number) {
-		return await paginate(ModelNote, pageNumber, limitNumber);
+	async getAllNotes(pageNumber: number, limitNumber: number, userId: string) {
+		return await paginate(ModelNote, pageNumber, limitNumber, { userId });
 	}
 
 	async getNotesById(id: string) {
