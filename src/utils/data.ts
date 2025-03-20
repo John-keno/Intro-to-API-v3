@@ -45,7 +45,7 @@ export interface User extends Document {
 }
 
 export interface AuthData {
-	userId: string;
+	userId: string | unknown;
 	email: string;
 }
 

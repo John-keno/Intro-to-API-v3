@@ -19,7 +19,7 @@ export default class NoteController {
 	async getNotes(req: AuthRequest, res: Response, next: NextFunction) {
 		try {
 			const { limit, page } = req.query;
-			const id = req.user?.userId || '';
+			const id = req.user?.userId as string;
 			const data = await getAllNotes(
 				parseInt(page as string) || 1,
 				parseInt(limit as string) || 10,

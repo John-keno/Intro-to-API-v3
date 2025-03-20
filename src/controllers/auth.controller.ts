@@ -2,11 +2,12 @@ import { Request, Response, NextFunction } from "express";
 import { UserService } from "../services/user.service";
 import { HttpError } from "../utils/httpError";
 import { AuthRequest } from "../utils/data";
+import { generateToken } from "../utils/helpers";
 
 const { registerUser, loginUser, getUserByEmail } = new UserService();
 
 export default class AuthController {
-	async registerUser(req: AuthRequest, res: Response, next: NextFunction) {
+	async registerUser(req: Request, res: Response, next: NextFunction) {
 		try {
 			const { email, password } = req.body;
 
@@ -15,7 +16,7 @@ export default class AuthController {
 				return next(new HttpError(400, "Account already exists"));
 			}
 
-			const data = await registerUser({email, password});
+			const data = await registerUser({ email, password });
 			if (data) {
 				res.status(201).send({
 					success: true,
@@ -44,10 +45,14 @@ export default class AuthController {
 			if (!data) {
 				return next(new HttpError(401, "Invalid email or password"));
 			} else {
+				const userData = { email: user.email, userId: user._id };
+
+				const token = generateToken(userData);
+
 				res.status(200).send({
 					success: true,
 					message: "Login successful",
-					data: { email: user.email },
+					data: { email: user.email, token },
 				});
 			}
 		} catch (error) {
