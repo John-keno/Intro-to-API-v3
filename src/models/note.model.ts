@@ -23,6 +23,10 @@ const NoteSchema: Schema = new Schema(
 				required: true,
 			},
 		},
+		userId:{
+			type: String,
+			required: [true, "field is required"],
+		}
 	},
 	{
 		timestamps: true,
