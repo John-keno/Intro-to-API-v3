@@ -3,6 +3,10 @@ import { User } from "../utils/data";
 
 const UserSchema: Schema = new Schema(
 	{
+		name:{
+			type: String,
+			required: true,
+		},
 		email: {
 			type: String,
 			unique: true,
