@@ -4,7 +4,7 @@ exports.clientError = exports.notFound = void 0;
 const httpError_1 = require("../utils/httpError");
 // Error handling for routes that are not found
 const notFound = (req, res, next) => {
-    res.status(404).json({ success: false, message: "Not found" });
+    res.status(404).json({ success: false, message: "Not found. Invalid Url path" });
     next();
 };
 exports.notFound = notFound;

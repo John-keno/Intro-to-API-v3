@@ -12,14 +12,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const note_model_1 = require("../models/note.model");
 const helpers_1 = require("../utils/helpers");
 class NoteService {
-    getAllNotes(pageNumber, limitNumber) {
+    getAllNotes(pageNumber, limitNumber, userId) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, helpers_1.paginate)(note_model_1.ModelNote, pageNumber, limitNumber);
+            return yield (0, helpers_1.paginate)(note_model_1.ModelNote, pageNumber, limitNumber, { userId });
         });
     }
-    getNotesById(id) {
+    getNotesById(id, userId) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield note_model_1.ModelNote.findById(id);
+            console.log(id, userId);
+            return yield note_model_1.ModelNote.findOne({ _id: id, userId });
         });
     }
     createNote(data) {
@@ -27,23 +28,24 @@ class NoteService {
             return yield note_model_1.ModelNote.create(data);
         });
     }
-    deleteNoteById(id) {
+    deleteNoteById(id, userId) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield note_model_1.ModelNote.findByIdAndDelete(id);
+            return yield note_model_1.ModelNote.findOneAndDelete({ _id: id, userId });
         });
     }
-    updateNoteById(id, data) {
+    updateNoteById(id, userId, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield note_model_1.ModelNote.findByIdAndUpdate(id, data, {
+            return yield note_model_1.ModelNote.findOneAndUpdate({ _id: id, userId }, data, {
                 new: true,
                 runValidators: true,
             });
         });
     }
-    getNotesByCategory(categoryId, pageNumber, limitNumber) {
+    getNotesByCategory(categoryId, pageNumber, limitNumber, userId) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield (0, helpers_1.paginate)(note_model_1.ModelNote, pageNumber, limitNumber, {
                 "category.id": categoryId,
+                userId,
             });
         });
     }

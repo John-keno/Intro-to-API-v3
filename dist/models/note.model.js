@@ -23,6 +23,10 @@ const NoteSchema = new mongoose_1.Schema({
             required: true,
         },
     },
+    userId: {
+        type: String,
+        required: [true, "field is required"],
+    }
 }, {
     timestamps: true,
     toJSON: {

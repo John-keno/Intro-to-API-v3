@@ -20,9 +20,11 @@ class NoteController {
     // Get all notes
     getNotes(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
+            var _a;
             try {
                 const { limit, page } = req.query;
-                const data = yield getAllNotes(parseInt(page) || 1, parseInt(limit) || 10);
+                const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId;
+                const data = yield getAllNotes(parseInt(page) || 1, parseInt(limit) || 10, userId);
                 res.status(200).send(Object.assign({ success: true }, data));
             }
             catch (error) {
@@ -33,14 +35,17 @@ class NoteController {
     // Get note by id
     getNotesById(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
+            var _a;
             if (!mongoose_1.default.Types.ObjectId.isValid(req.params.id)) {
                 next(new httpError_1.HttpError(400, "Invalid ID. Please provide a valid one"));
                 return;
             }
             try {
-                const data = yield getNotesById(req.params.id);
+                const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId;
+                const data = yield getNotesById(req.params.id, userId);
                 if (data) {
-                    res.status(200).send(data);
+                    res.status(200)
+                        .send({ success: true, message: "Note fetched succesfully", data });
                 }
                 else {
                     next(new httpError_1.HttpError(404, "Note not found"));
@@ -54,13 +59,16 @@ class NoteController {
     // Create a new note
     createNote(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
+            var _a;
             try {
                 const { title, content, category } = req.body;
+                const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId;
                 let foundCategory = (yield getCategoryByName(category.name)).toJSON();
                 const data = yield createNote({
                     title,
                     content,
                     category: foundCategory,
+                    userId,
                 });
                 res
                     .status(201)
@@ -74,16 +82,17 @@ class NoteController {
     // Delete a note
     deleteNote(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
+            var _a;
             if (!mongoose_1.default.Types.ObjectId.isValid(req.params.id)) {
                 next(new httpError_1.HttpError(400, "Invalid ID. Please provide a valid one"));
                 return;
             }
             try {
-                const data = yield deleteNoteById(req.params.id);
+                const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId;
+                const data = yield deleteNoteById(req.params.id, userId);
                 if (data) {
-                    res
-                        .status(200)
-                        .send({ message: "Note deleted successfully", success: true, data });
+                    res.status(200)
+                        .send({ success: true, message: "Note deleted successfully", data });
                 }
                 else {
                     return next(new httpError_1.HttpError(404, "Note not found"));
@@ -97,21 +106,23 @@ class NoteController {
     // Update a note
     updateNoteById(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
+            var _a;
             if (!mongoose_1.default.Types.ObjectId.isValid(req.params.id)) {
                 next(new httpError_1.HttpError(400, "Invalid ID. Please provide a valid one"));
                 return;
             }
             try {
                 const { title, content, category } = req.body;
+                const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId;
                 let foundCategory = (yield getCategoryByName(category.name)).toJSON();
-                const data = yield updateNoteById(req.params.id, {
+                const data = yield updateNoteById(req.params.id, userId, {
                     title,
                     content,
                     category: foundCategory,
+                    userId,
                 });
                 if (data) {
-                    res
-                        .status(200)
+                    res.status(200)
                         .send({ success: true, message: "Note updated successfully", data });
                 }
                 else {
@@ -126,14 +137,16 @@ class NoteController {
     // get Notes by categories
     getAllNotesByCategory(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
+            var _a;
             try {
                 const { page, limit } = req.query;
-                const data = yield getNotesByCategory(req.params.categoryId, parseInt(page) || 1, parseInt(limit) || 10);
-                if (data) {
-                    res.status(200).send(Object.assign({ success: true }, data));
+                const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId;
+                const data = yield getNotesByCategory(req.params.categoryId, parseInt(page) || 1, parseInt(limit) || 10, userId);
+                if (!data || data.total === 0) {
+                    return next(new httpError_1.HttpError(404, "No Note in this category found"));
                 }
                 else {
-                    next(new httpError_1.HttpError(404, "No Note in this category found"));
+                    res.status(200).send(Object.assign({ success: true, message: "Notes fetched Successfully" }, data));
                 }
             }
             catch (error) {
@@ -144,8 +157,7 @@ class NoteController {
     // Welcome message
     welcomeMessage(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            res
-                .status(200)
+            res.status(200)
                 .send("Welcome to the Joekode Notes API version 2. This is a simple API to manage notes");
         });
     }

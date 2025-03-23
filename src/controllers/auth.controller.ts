@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { UserService } from "../services/user.service";
 import { HttpError } from "../utils/httpError";
-import { AuthRequest } from "../utils/data";
 import { generateToken } from "../utils/helpers";
 
 const { registerUser, loginUser, getUserByEmail } = new UserService();
@@ -29,7 +28,6 @@ export default class AuthController {
 				});
 			}
 		} catch (error) {
-			console.log(error);
 			next(new HttpError(500, "Internal Server Error"));
 		}
 	}

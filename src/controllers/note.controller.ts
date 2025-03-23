@@ -18,13 +18,11 @@ export default class NoteController {
 	// Get all notes
 	async getNotes(req: AuthRequest, res: Response, next: NextFunction) {
 		try {
-			const { limit, page } = req.query;
-			const id = req.user?.userId as string;
-			const data = await getAllNotes(
-				parseInt(page as string) || 1,
-				parseInt(limit as string) || 10,
-				id
-			);
+			const page = Number(req.query.page) || 1;
+			const limit = Number(req.query.limit) || 10;
+
+			const userId = req.user?.userId as string;
+			const data = await getAllNotes(page, limit, userId);
 
 			res.status(200).send({ success: true, ...data });
 		} catch (error) {
@@ -33,15 +31,20 @@ export default class NoteController {
 	}
 
 	// Get note by id
-	async getNotesById(req: Request, res: Response, next: NextFunction) {
+	async getNotesById(req: AuthRequest, res: Response, next: NextFunction) {
 		if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
 			next(new HttpError(400, "Invalid ID. Please provide a valid one"));
 			return;
 		}
 		try {
-			const data = await getNotesById(req.params.id);
+			const userId = req.user?.userId as string;
+			const data = await getNotesById(req.params.id, userId);
 			if (data) {
-				res.status(200).send(data);
+				res.status(200).send({
+					success: true, 
+					message: "Note fetched succesfully",
+					data 
+				});
 			} else {
 				next(new HttpError(404, "Note not found"));
 			}
@@ -51,36 +54,44 @@ export default class NoteController {
 	}
 
 	// Create a new note
-	async createNote(req: Request, res: Response, next: NextFunction) {
+	async createNote(req: AuthRequest, res: Response, next: NextFunction) {
 		try {
 			const { title, content, category } = req.body;
+			const userId = req.user?.userId as string;
+
 			let foundCategory = (await getCategoryByName(category.name)).toJSON();
 
 			const data = await createNote({
 				title,
 				content,
 				category: foundCategory,
+				userId,
 			});
-			res
-				.status(201)
-				.send({ message: "Note created successfully", success: true, data });
+			res.status(201).send({ 
+				success: true,
+				message: "Note created successfully",
+				data 
+			});
 		} catch (error) {
 			return next(new HttpError(500, "Internal Server Error"));
 		}
 	}
 
 	// Delete a note
-	async deleteNote(req: Request, res: Response, next: NextFunction) {
+	async deleteNote(req: AuthRequest, res: Response, next: NextFunction) {
 		if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
 			next(new HttpError(400, "Invalid ID. Please provide a valid one"));
 			return;
 		}
 		try {
-			const data = await deleteNoteById(req.params.id);
+			const userId = req.user?.userId as string;
+			const data = await deleteNoteById(req.params.id, userId);
 			if (data) {
-				res
-					.status(200)
-					.send({ message: "Note deleted successfully", success: true, data });
+				res.status(200).send({
+					success: true,
+					message: "Note deleted successfully",
+					data 
+				});
 			} else {
 				return next(new HttpError(404, "Note not found"));
 			}
@@ -90,26 +101,30 @@ export default class NoteController {
 	}
 
 	// Update a note
-	async updateNoteById(req: Request, res: Response, next: NextFunction) {
+	async updateNoteById(req: AuthRequest, res: Response, next: NextFunction) {
 		if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
 			next(new HttpError(400, "Invalid ID. Please provide a valid one"));
 			return;
 		}
 		try {
 			const { title, content, category } = req.body;
+			const userId = req.user?.userId as string;
 
 			let foundCategory = (await getCategoryByName(category.name)).toJSON();
 
-			const data = await updateNoteById(req.params.id, {
+			const data = await updateNoteById(req.params.id, userId, {
 				title,
 				content,
 				category: foundCategory,
+				userId,
 			});
 
 			if (data) {
-				res
-					.status(200)
-					.send({ success: true, message: "Note updated successfully", data });
+				res.status(200).send({ 
+					success: true,
+					message: "Note updated successfully",
+					data 
+				});
 			} else {
 				return next(new HttpError(404, "Note not found"));
 			}
@@ -119,18 +134,30 @@ export default class NoteController {
 	}
 
 	// get Notes by categories
-	async getAllNotesByCategory(req: Request, res: Response, next: NextFunction) {
+	async getAllNotesByCategory(
+		req: AuthRequest,
+		res: Response,
+		next: NextFunction
+	) {
 		try {
-			const { page, limit } = req.query;
+			const page = Number(req.query.page) || 1;
+			const limit = Number(req.query.limit) || 10;
+
+			const userId = req.user?.userId as string;
 			const data = await getNotesByCategory(
 				req.params.categoryId,
-				parseInt(page as string) || 1,
-				parseInt(limit as string) || 10
+				page,
+				limit,
+				userId
 			);
-			if (data) {
-				res.status(200).send({ success: true, ...data });
+			if (!data || data.total === 0) {
+				return next(new HttpError(404, "No Note in this category found"));
 			} else {
-				next(new HttpError(404, "No Note in this category found"));
+				res.status(200).send({
+					success: true,
+					message: "Notes fetched Successfully",
+					...data,
+				});
 			}
 		} catch (error) {
 			return next(new HttpError(500, "Internal Server Error"));
@@ -139,10 +166,8 @@ export default class NoteController {
 
 	// Welcome message
 	async welcomeMessage(req: Request, res: Response) {
-		res
-			.status(200)
-			.send(
-				"Welcome to the Joekode Notes API version 2. This is a simple API to manage notes"
-			);
+		res.status(200).send(
+			"Welcome to the Joekode Notes API version 2. This is a simple API to manage notes"
+		);
 	}
 }

@@ -1,23 +1,17 @@
 import { AuthData } from './data';
 import { Model } from "mongoose";
 import { init } from "@paralleldrive/cuid2";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-/**
- * Utility functions for ID generation and pagination
- * @module helpers
- */
 
 /**
  * Generates a unique identifier using CUID2
  * @returns {string} A unique string identifier of length 10
  */
-
 const createId = init({
 	length: 10,
 });
-
 export const generateId = (): string => {
 	return createId();
 };
@@ -77,7 +71,6 @@ export const encryptPassword = async (password: string): Promise<string> => {
  * @param {string} encryptedPassword - The hashed password to compare against
  * @returns {Promise<boolean>} A boolean indicating whether the password matches the hashed password
  */
-
 export const decryptPassword = async (
 	password: string,
 	encryptedPassword: string
