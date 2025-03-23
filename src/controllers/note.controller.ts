@@ -167,7 +167,7 @@ export default class NoteController {
 	// Welcome message
 	async welcomeMessage(req: Request, res: Response) {
 		res.status(200).send(
-			"Welcome to the Joekode Notes API version 2. This is a simple API to manage notes"
+			"Welcome to the Joekode Notes API version 3. This is a simple API to manage notes"
 		);
 	}
 }
