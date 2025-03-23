@@ -20,27 +20,27 @@ const {
 export default function (router: Router) {
 	router.get("/", welcomeMessage);
 	router.get(
-		"/v2/api/notes",
+		"/v3/api/notes",
 		verifyToken,
 		requestQueryValidator(NoteQuerySchema),
 		getNotes
 	);
 	router.post(
-		"/v2/api/notes",
+		"/v3/api/notes",
 		verifyToken,
 		RequestValidator(NoteSchema),
 		createNote
 	);
-	router.get("/v2/api/notes/:id", verifyToken, getNotesById);
-	router.delete("/v2/api/notes/:id", verifyToken, deleteNote);
+	router.get("/v3/api/notes/:id", verifyToken, getNotesById);
+	router.delete("/v3/api/notes/:id", verifyToken, deleteNote);
 	router.put(
-		"/v2/api/notes/:id",
+		"/v3/api/notes/:id",
 		verifyToken,
 		RequestValidator(NoteSchema),
 		updateNoteById
 	);
 	router.get(
-		"/v2/api/notes/categories/:categoryId",
+		"/v3/api/notes/categories/:categoryId",
 		verifyToken,
 		requestQueryValidator(NoteQuerySchema),
 		getAllNotesByCategory

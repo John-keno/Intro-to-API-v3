@@ -8,17 +8,17 @@ This is a simple REST API that demonstrates basic Authentication using JWT and C
 
 ### Authentication Routes
 
-- `POST /v2/api/auth/register` - Register new User with email and password
-- `POST /v2/api/auth/login` - Login already Registered users with email and password
+- `POST /v3/api/auth/register` - Register new User with email and password
+- `POST /v3/api/auth/login` - Login already Registered users with email and password
 
 ### Notes Routes
 
-- `GET /v2/api/users` - Get all notes
-- `GET /v2/api/users/:id` - Get a specific note by ID
-- `POST /v2/api/users` - Create a new note
-- `PUT /v2/api/users/:id` - Update a note
-- `DELETE /v2/api/users/:id` - Delete a note
-- `GET /v2/api/notes/categories/:categoryId` - Get notes by note category's ID
+- `GET /v3/api/users` - Get all notes
+- `GET /v3/api/users/:id` - Get a specific note by ID
+- `POST /v3/api/users` - Create a new note
+- `PUT /v3/api/users/:id` - Update a note
+- `DELETE /v3/api/users/:id` - Delete a note
+- `GET /v3/api/notes/categories/:categoryId` - Get notes by note category's ID
 
 ### Pagination Parameters
 
