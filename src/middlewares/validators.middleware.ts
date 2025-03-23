@@ -47,6 +47,7 @@ export const requestQueryValidator =
 	(schema: ZodType<any>): RequestHandler =>
 	(req: Request, res: Response, next: NextFunction): void => {
 		try {
+			
 			const userReq = req.query;
 			req.query = schema.parse(userReq);
 			next();

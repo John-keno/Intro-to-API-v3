@@ -22,9 +22,10 @@ class NoteController {
         return __awaiter(this, void 0, void 0, function* () {
             var _a;
             try {
-                const { limit, page } = req.query;
+                const page = Number(req.query.page) || 1;
+                const limit = Number(req.query.limit) || 10;
                 const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId;
-                const data = yield getAllNotes(parseInt(page) || 1, parseInt(limit) || 10, userId);
+                const data = yield getAllNotes(page, limit, userId);
                 res.status(200).send(Object.assign({ success: true }, data));
             }
             catch (error) {
@@ -44,8 +45,11 @@ class NoteController {
                 const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId;
                 const data = yield getNotesById(req.params.id, userId);
                 if (data) {
-                    res.status(200)
-                        .send({ success: true, message: "Note fetched succesfully", data });
+                    res.status(200).send({
+                        success: true,
+                        message: "Note fetched succesfully",
+                        data
+                    });
                 }
                 else {
                     next(new httpError_1.HttpError(404, "Note not found"));
@@ -70,9 +74,11 @@ class NoteController {
                     category: foundCategory,
                     userId,
                 });
-                res
-                    .status(201)
-                    .send({ message: "Note created successfully", success: true, data });
+                res.status(201).send({
+                    success: true,
+                    message: "Note created successfully",
+                    data
+                });
             }
             catch (error) {
                 return next(new httpError_1.HttpError(500, "Internal Server Error"));
@@ -91,8 +97,11 @@ class NoteController {
                 const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId;
                 const data = yield deleteNoteById(req.params.id, userId);
                 if (data) {
-                    res.status(200)
-                        .send({ success: true, message: "Note deleted successfully", data });
+                    res.status(200).send({
+                        success: true,
+                        message: "Note deleted successfully",
+                        data
+                    });
                 }
                 else {
                     return next(new httpError_1.HttpError(404, "Note not found"));
@@ -122,8 +131,11 @@ class NoteController {
                     userId,
                 });
                 if (data) {
-                    res.status(200)
-                        .send({ success: true, message: "Note updated successfully", data });
+                    res.status(200).send({
+                        success: true,
+                        message: "Note updated successfully",
+                        data
+                    });
                 }
                 else {
                     return next(new httpError_1.HttpError(404, "Note not found"));
@@ -139,9 +151,10 @@ class NoteController {
         return __awaiter(this, void 0, void 0, function* () {
             var _a;
             try {
-                const { page, limit } = req.query;
+                const page = Number(req.query.page) || 1;
+                const limit = Number(req.query.limit) || 10;
                 const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId;
-                const data = yield getNotesByCategory(req.params.categoryId, parseInt(page) || 1, parseInt(limit) || 10, userId);
+                const data = yield getNotesByCategory(req.params.categoryId, page, limit, userId);
                 if (!data || data.total === 0) {
                     return next(new httpError_1.HttpError(404, "No Note in this category found"));
                 }
@@ -157,8 +170,7 @@ class NoteController {
     // Welcome message
     welcomeMessage(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            res.status(200)
-                .send("Welcome to the Joekode Notes API version 2. This is a simple API to manage notes");
+            res.status(200).send("Welcome to the Joekode Notes API version 3. This is a simple API to manage notes");
         });
     }
 }

@@ -61,11 +61,11 @@ export const NoteQuerySchema = z.object({
 	page: z.string().optional().transform(Number)
 		.refine((value) => Number.isInteger(value) && value > 0, {
 			message: "page must be a positive whole number or a non fractional number",
-		}),
+		}).default("1"),
 	limit: z.string().optional().transform(Number)
 		.refine((value) => Number.isInteger(value) && value > 0, {
 			message: "limit must be a positive number or a non fractional number",
-		})
+		}).default("10")
 }).strict({
-	message: "Unrecognized keys were found in the query parameters"
+	message: "Invalid query parameters detected",
 });
