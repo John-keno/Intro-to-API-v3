@@ -8,14 +8,14 @@ const { registerUser, loginUser, getUserByEmail } = new UserService();
 export default class AuthController {
 	async registerUser(req: Request, res: Response, next: NextFunction) {
 		try {
-			const { email, password } = req.body;
+			const { name, email, password } = req.body;
 
 			const user = await getUserByEmail(email);
 			if (user !== null) {
 				return next(new HttpError(400, "Account already exists"));
 			}
 
-			const data = await registerUser({ email, password });
+			const data = await registerUser({ name, email, password });
 			if (data) {
 				res.status(201).send({
 					success: true,
@@ -43,7 +43,7 @@ export default class AuthController {
 			if (!data) {
 				return next(new HttpError(401, "Invalid email or password"));
 			} else {
-				const userData = { email: user.email, userId: user._id };
+				const userData = { email: user.email, userId: user._id, name: user.name };
 
 				const token = generateToken(userData);
 

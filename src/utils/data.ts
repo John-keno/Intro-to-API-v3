@@ -38,6 +38,7 @@ export interface CategoryDocument extends Document {
 
 export interface User extends Document {
 	id: string;
+	name: string;
 	email: string;
 	password: string;
 	createdAt: Date;
@@ -47,6 +48,7 @@ export interface User extends Document {
 export interface AuthData {
 	userId: string | unknown;
 	email: string;
+	name: string;
 }
 
 export interface AuthRequest extends Request {
@@ -56,4 +58,8 @@ export interface AuthRequest extends Request {
 export interface AuthCredentials {
 	email: string;
 	password: string;
+}
+
+export interface RegisterData extends AuthCredentials {
+	name: string;
 }

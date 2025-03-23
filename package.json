@@ -12,6 +12,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": "=22.14.0"
+  },
   "dependencies": {
     "@paralleldrive/cuid2": "^2.2.2",
     "@types/bcrypt": "^5.0.2",

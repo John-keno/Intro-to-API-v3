@@ -1,10 +1,15 @@
-# Notes API Version 2
+# Notes API Version 3
 
 ## Project Description
 
-This is a simple REST API that demonstrates basic CRUD operations. The API allows users to manage notes and their categories.
+This is a simple REST API that demonstrates basic Authentication using JWT and CRUD operations. The API allows authenticated users to manage notes and their categories.
 
 ## Available Routes
+
+### Authentication Routes
+
+- `POST /v2/api/auth/register` - Register new User with email and password
+- `POST /v2/api/auth/login` - Login already Registered users with email and password
 
 ### Notes Routes
 
@@ -15,7 +20,7 @@ This is a simple REST API that demonstrates basic CRUD operations. The API allow
 - `DELETE /v2/api/users/:id` - Delete a note
 - `GET /v2/api/notes/categories/:categoryId` - Get notes by note category's ID
 
-### Pagination Parameters 
+### Pagination Parameters
 
 The following query parameters can be used to control pagination:
 
